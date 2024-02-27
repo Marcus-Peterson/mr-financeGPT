@@ -1,0 +1,8 @@
+jinja2
+torch
+pandas
+scikit-learn
+torch
+fastapi
+uvicorn
+yfinance

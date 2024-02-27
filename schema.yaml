@@ -1,0 +1,232 @@
+openapi: 3.0.1
+info:
+  title: Stock Data API
+  description: An API to fetch stock market data
+  version: 1.0.0
+servers:
+  - url: https://mr-finance.replit.app/
+paths:
+  /data/{ticker}/{period}/{interval}:
+    get:
+      summary: Get raw stock market data
+      operationId: getRawData
+      parameters:
+        - name: ticker
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: period
+          in: path 
+          required: true
+          schema:
+            type: string
+            enum:
+              - day
+              - week
+              - month
+              - year
+        - name: interval  
+          in: path
+          required: true
+          schema:
+            type: string
+            default: 1d
+            enum:
+              - 1m
+              - 2m
+              - 5m
+              - 15m
+              - 30m
+              - 60m
+              - 90m
+              - 1d
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ticker:
+                    type: string
+                  period:
+                    type: string
+                  interval:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                        open:
+                          type: number
+                        high:
+                          type: number
+                        low:
+                          type: number
+                        close:
+                          type: number
+                        volume:
+                          type: integer
+        400:
+          description: Invalid period or interval
+  /normalized-data/{ticker}/{period}/{interval}:
+    get:
+      summary: Get normalized stock market data
+      operationId: getNormalizedData
+      parameters:
+        - name: ticker
+          in: path
+          required: true
+          schema:
+            type: string      
+        - name: period
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - day
+              - week
+              - month
+              - year
+        - name: interval
+          in: path
+          required: true
+          schema:
+            type: string
+            default: 1d
+            enum:
+              - 1m
+              - 2m
+              - 5m
+              - 15m
+              - 30m
+              - 60m
+              - 90m
+              - 1d
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ticker:
+                    type: string
+                  period:
+                    type: string
+                  interval:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: number
+        400:
+          description: Invalid period or interval
+  /model-data/{ticker}/{period}/{interval}:
+    get:
+      summary: Get model predicted stock market data
+      operationId: getModelData
+      parameters:
+        - name: ticker
+          in: path
+          required: true
+          schema:
+            type: string        
+        - name: period
+          in: path  
+          required: true
+          schema:
+            type: string
+            enum:
+              - day
+              - week
+              - month
+              - year
+        - name: interval
+          in: path
+          required: true
+          schema:
+            type: string
+            default: 1d
+            enum:
+              - 1m
+              - 2m
+              - 5m
+              - 15m
+              - 30m
+              - 60m
+              - 90m  
+              - 1d
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ticker:
+                    type: string
+                  period:
+                    type: string
+                  interval: 
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: number
+        400:
+          description: Invalid period or interval        
+  /plot/{ticker}/{period}/{interval}:
+    get:
+      summary: Get a plot of stock market data
+      operationId: getPlot
+      parameters:
+        - name: ticker
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: period
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - day
+              - week
+              - month
+              - year
+        - name: interval
+          in: path
+          required: true
+          schema:
+            type: string
+            default: 1d
+            enum:
+              - 1m
+              - 2m
+              - 5m
+              - 15m
+              - 30m
+              - 60m
+              - 90m
+              - 1d
+      responses:
+        200:
+          description: Successful response 
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        400:
+          description: Invalid period or interval
